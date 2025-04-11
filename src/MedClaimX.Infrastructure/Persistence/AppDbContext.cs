@@ -1,4 +1,5 @@
-﻿using MedClaimX.Core.Identity;
+﻿using MedClaimX.Core.Common;
+using MedClaimX.Core.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,6 +12,9 @@ namespace MedClaimX.Infrastructure.Persistence
 {
     public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<ApplicationUser>(options)
     {
+        public DbSet<Document> Documents { get; set; }
+        public DbSet<DocumentObject> DocumentObjects { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
