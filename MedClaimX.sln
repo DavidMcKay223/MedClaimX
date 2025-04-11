@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35919.96
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedClaimX.Application", "src\MedClaimX.Application\MedClaimX.Application.csproj", "{AFC204D6-0210-8C9D-52C0-CD30947AB55F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{48A2C530-EF08-47F2-B208-4ADB12488BD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedClaimX.Web", "src\MedClaimX.Web\MedClaimX.Web.csproj", "{696AA44C-A67C-6534-B129-53748B0EDBC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedClaimX.Infrastructure", "src\MedClaimX.Infrastructure\MedClaimX.Infrastructure.csproj", "{30F5FA23-02ED-46B3-8070-F22E3098DE77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedClaimX.Core", "src\MedClaimX.Core\MedClaimX.Core.csproj", "{6426A6A8-620D-462D-BBEC-B73654823316}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AFC204D6-0210-8C9D-52C0-CD30947AB55F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFC204D6-0210-8C9D-52C0-CD30947AB55F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFC204D6-0210-8C9D-52C0-CD30947AB55F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFC204D6-0210-8C9D-52C0-CD30947AB55F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{696AA44C-A67C-6534-B129-53748B0EDBC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{696AA44C-A67C-6534-B129-53748B0EDBC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{696AA44C-A67C-6534-B129-53748B0EDBC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{696AA44C-A67C-6534-B129-53748B0EDBC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30F5FA23-02ED-46B3-8070-F22E3098DE77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30F5FA23-02ED-46B3-8070-F22E3098DE77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30F5FA23-02ED-46B3-8070-F22E3098DE77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30F5FA23-02ED-46B3-8070-F22E3098DE77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6426A6A8-620D-462D-BBEC-B73654823316}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6426A6A8-620D-462D-BBEC-B73654823316}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6426A6A8-620D-462D-BBEC-B73654823316}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6426A6A8-620D-462D-BBEC-B73654823316}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AFC204D6-0210-8C9D-52C0-CD30947AB55F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{696AA44C-A67C-6534-B129-53748B0EDBC2} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{30F5FA23-02ED-46B3-8070-F22E3098DE77} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{6426A6A8-620D-462D-BBEC-B73654823316} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C6A3873A-8F17-4830-B38E-709A39716286}
+	EndGlobalSection
+EndGlobal
