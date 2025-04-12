@@ -13,7 +13,12 @@ namespace MedClaimX.Core.Management
         [Key]
         public int Id { get; set; }
 
-        public Address? PrimaryAddress { get; set; }
-        public Address? SecondaryAddress { get; set; }
+        public string? ClaimNumber { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+
+
+        public required Address PrimaryAddress { get; set; }
+        public required Address SecondaryAddress { get; set; }
     }
 }

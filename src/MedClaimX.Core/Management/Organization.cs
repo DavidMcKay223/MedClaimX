@@ -13,7 +13,16 @@ namespace MedClaimX.Core.Management
         [Key]
         public int Id { get; set; }
 
-        public Address? PrimaryAddress { get; set; }
-        public Address? SecondaryAddress { get; set; }
+        [Required]
+        public OrganizationType OrgType { get; set; }
+
+        [MaxLength(100)]
+        public string? Name { get; set; }
+
+        [MaxLength(50)]
+        public string? Tin { get; set; }
+
+        public required Address PrimaryAddress { get; set; }
+        public required Address SecondaryAddress { get; set; }
     }
 }
