@@ -22,4 +22,9 @@
     <ProjectReference Include="..\MedClaimX.Infrastructure\MedClaimX.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\Pages\Management\" />
+    <Folder Include="Components\Pages\Common\" />
+  </ItemGroup>
+
 </Project>
