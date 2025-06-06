@@ -15,16 +15,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="MudBlazor" Version="8.7.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MedClaimX.Application\MedClaimX.Application.csproj" />
     <ProjectReference Include="..\MedClaimX.Infrastructure\MedClaimX.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Components\Pages\Management\" />
-    <Folder Include="Components\Pages\Common\" />
   </ItemGroup>
 
 </Project>

@@ -1,21 +1,51 @@
 ﻿@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager Navigation
 
-<div class="page">
-    <div class="sidebar">
+<MudThemeProvider IsDarkMode="true" />
+
+<MudLayout>
+    
+    <!-- Sidebar -->
+    <MudDrawer Elevation="1" ClipMode="DrawerClipMode.Always" Open="true" Variant="DrawerVariant.Mini">
         <NavMenu />
-    </div>
+    </MudDrawer>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+    <!-- AppBar -->
+    <MudAppBar Elevation="4" Fixed="true">
+        <MudText Typo="Typo.h6">MedClaimX</MudText>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+        <MudSpacer />
 
+        <AuthorizeView>
+            <Authorized>
+                <form action="Account/Logout" method="post">
+                    <AntiforgeryToken />
+                    <input type="hidden" name="ReturnUrl" value="" />
+                    <MudButton StartIcon="@Icons.Material.Filled.Logout" Variant="Variant.Text" ButtonType="ButtonType.Submit">
+                        Logout
+                    </MudButton>
+                </form>
+            </Authorized>
+            <NotAuthorized>
+                <MudButton StartIcon="@Icons.Material.Filled.PersonAdd" Variant="Variant.Text" Href="Account/Register">
+                    Register
+                </MudButton>
+                <MudButton StartIcon="@Icons.Material.Filled.Login" Variant="Variant.Text" Href="Account/Login">
+                    Login
+                </MudButton>
+            </NotAuthorized>
+        </AuthorizeView>
+    </MudAppBar>
+
+    <!-- Main Content -->
+    <MudMainContent Class="pt-20 px-4">
+        @Body
+    </MudMainContent>
+
+</MudLayout>
+
+<!-- Blazor Error UI -->
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
     <a href="." class="reload">Reload</a>

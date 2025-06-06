@@ -1,0 +1,49 @@
+﻿@page "/Claims/"
+@rendermode InteractiveServer
+
+<MudPopoverProvider />
+<MudSnackbarProvider />
+<MudDialogProvider />
+
+<MudText Typo="Typo.h4">
+    Claims
+</MudText>
+
+<MudCard Elevation="1">
+    <MudCardContent>
+        <MudTable Items="@Claims" Hover="true" Striped="true" Bordered="true" Breakpoint="Breakpoint.Sm">
+            <HeaderContent>
+                <MudTh>Claim ID</MudTh>
+                <MudTh>Patient Name</MudTh>
+                <MudTh>Provider Name</MudTh>
+                <MudTh>Status</MudTh>
+                <MudTh>Amount</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Claim ID">@context.ClaimId</MudTd>
+                <MudTd DataLabel="Patient Name">@context.PatientName</MudTd>
+                <MudTd DataLabel="Provider Name">@context.ProviderName</MudTd>
+                <MudTd DataLabel="Status">@context.Status</MudTd>
+                <MudTd DataLabel="Amount">@context.Amount.ToString("C")</MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudCardContent>
+</MudCard>
+
+@code{
+    private List<Claim> Claims = new List<Claim>
+    {
+        new Claim { ClaimId = "C12345", PatientName = "John Doe", ProviderName = "Health Clinic", Status = "Pending", Amount = 1500.00m },
+        new Claim { ClaimId = "C12346", PatientName = "Jane Smith", ProviderName = "City Hospital", Status = "Approved", Amount = 2500.00m },
+        new Claim { ClaimId = "C12347", PatientName = "Alice Johnson", ProviderName = "Wellness Center", Status = "Denied", Amount = 1200.00m }
+    };
+
+    public class Claim
+    {
+        public string ClaimId { get; set; }
+        public string PatientName { get; set; }
+        public string ProviderName { get; set; }
+        public string Status { get; set; }
+        public decimal Amount { get; set; }
+    }
+}
