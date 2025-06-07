@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
+using MedClaimX.Core.Contracts;
+using MedClaimX.Infrastructure.Repositories;
+using MudBlazor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +41,11 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+// DI:
+builder.Services.AddScoped<IClaimService, ClaimService>();
+builder.Services.AddScoped<IDocumentService, DocumentService>();
+builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 
 var app = builder.Build();
 

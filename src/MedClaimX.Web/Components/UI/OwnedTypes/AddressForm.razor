@@ -1,0 +1,35 @@
+﻿@using MedClaimX.Core.OwnedTypes
+
+@if (Address == null)
+{
+    <MudText Typo="Typo.subtitle1" Color="Color.Warning">
+        <MudIcon Icon="@Icons.Material.Filled.Info" />
+        No @Label.
+    </MudText>
+}
+else
+{
+    <MudText Typo="Typo.h4">@Label</MudText>
+    <MudGrid>
+        <MudItem xs="12">
+            <MudTextField @bind-Value="Address.Street" Label="Street" For="@(() => Address.Street)" MaxLength="100" />
+        </MudItem>
+        <MudItem xs="12" md="4">
+            <MudTextField @bind-Value="Address.City" Label="City" For="@(() => Address.City)" MaxLength="50" />
+        </MudItem>
+        <MudItem xs="12" md="4">
+            <MudTextField @bind-Value="Address.State" Label="State" For="@(() => Address.State)" MaxLength="50" />
+        </MudItem>
+        <MudItem xs="12" md="4">
+            <MudTextField @bind-Value="Address.ZipCode" Label="Zip Code" For="@(() => Address.ZipCode)" MaxLength="20" />
+        </MudItem>
+    </MudGrid>
+}
+
+@code {
+    [Parameter]
+    public Address? Address { get; set; }
+
+    [Parameter]
+    public string Label { get; set; } = "Address";
+}

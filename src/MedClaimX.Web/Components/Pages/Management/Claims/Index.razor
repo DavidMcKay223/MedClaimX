@@ -1,5 +1,11 @@
 ﻿@page "/Claims/"
 @rendermode InteractiveServer
+@using MedClaimX.Core.Management
+@using MedClaimX.Core.Contracts
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IClaimService ClaimService
+@inject ILogger<Claim> Logger
+@inject IDialogService DialogService
 
 <MudPopoverProvider />
 <MudSnackbarProvider />
@@ -9,41 +15,123 @@
     Claims
 </MudText>
 
-<MudCard Elevation="1">
-    <MudCardContent>
-        <MudTable Items="@Claims" Hover="true" Striped="true" Bordered="true" Breakpoint="Breakpoint.Sm">
-            <HeaderContent>
-                <MudTh>Claim ID</MudTh>
-                <MudTh>Patient Name</MudTh>
-                <MudTh>Provider Name</MudTh>
-                <MudTh>Status</MudTh>
-                <MudTh>Amount</MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd DataLabel="Claim ID">@context.ClaimId</MudTd>
-                <MudTd DataLabel="Patient Name">@context.PatientName</MudTd>
-                <MudTd DataLabel="Provider Name">@context.ProviderName</MudTd>
-                <MudTd DataLabel="Status">@context.Status</MudTd>
-                <MudTd DataLabel="Amount">@context.Amount.ToString("C")</MudTd>
-            </RowTemplate>
-        </MudTable>
-    </MudCardContent>
-</MudCard>
+@if (Claims == null)
+{
+    <MudPaper>
+        <MudProgressCircular Indeterminate="true" Color="Color.Primary" Size="Size.Large" />
+        <MudText Typo="Typo.subtitle1" Class="text-muted">Loading Claims...</MudText>
+    </MudPaper>
+}
+else if (!Claims.Any())
+{
+    <MudPaper>
+        <MudText Typo="Typo.subtitle1" Color="Color.Warning">
+            <MudIcon Icon="@Icons.Material.Filled.Info"/>
+            No Claims.
+        </MudText>
+    </MudPaper>
+}
+else
+{
+    <MudCard Elevation="1">
+        <MudCardContent>
+            <MudTable Items="@Claims" Hover="true" Striped="true" Bordered="true" Breakpoint="Breakpoint.Sm">
+                <HeaderContent>
+                    <MudTh>Claim Number</MudTh>
+                    <MudTh>Patient First Name</MudTh>
+                    <MudTh>Patient Last Name</MudTh>
+                    <MudTh>Primary State</MudTh>
+                    <MudTh>Secondary State</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Claim Number">@context.ClaimNumber</MudTd>
+                    <MudTd DataLabel="Patient First Name">@context.FirstName</MudTd>
+                    <MudTd DataLabel="Patient Last Name">@context.LastName</MudTd>
+                    <MudTd DataLabel="Primary State">@context.PrimaryAddress.State</MudTd>
+                    <MudTd DataLabel="Secondary State">@context.SecondaryAddress.State</MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudCardContent>
+    </MudCard>
+}
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ShowNewClaimDialog">
+    <MudIcon Icon="@Icons.Material.Filled.Add" />
+    New Claim
+</MudButton>
 
 @code{
-    private List<Claim> Claims = new List<Claim>
-    {
-        new Claim { ClaimId = "C12345", PatientName = "John Doe", ProviderName = "Health Clinic", Status = "Pending", Amount = 1500.00m },
-        new Claim { ClaimId = "C12346", PatientName = "Jane Smith", ProviderName = "City Hospital", Status = "Approved", Amount = 2500.00m },
-        new Claim { ClaimId = "C12347", PatientName = "Alice Johnson", ProviderName = "Wellness Center", Status = "Denied", Amount = 1200.00m }
-    };
+    private String userId = string.Empty;
+    private List<Claim>? Claims = null;
+    private Claim? newClaim = null;
 
-    public class Claim
+    protected override async Task OnInitializedAsync()
     {
-        public string ClaimId { get; set; }
-        public string PatientName { get; set; }
-        public string ProviderName { get; set; }
-        public string Status { get; set; }
-        public decimal Amount { get; set; }
+        try
+        {
+            var auth = await AuthStateProvider.GetAuthenticationStateAsync();
+            userId = auth.User?.Identity?.Name ?? string.Empty;
+
+            await LoadItems();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error during component initialization for user {UserId}", userId);
+        }
+    }
+
+    private async Task LoadItems()
+    {
+        try
+        {
+            Claims = await ClaimService.GetAllClaimsAsync(userId);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error loading Claims list items for user {UserId}", userId);
+            Claims = new();
+        }
+    }
+
+    private async Task OnNewClaim(Claim claim)
+    {
+        try
+        {
+            if (claim != null)
+            {
+                await ClaimService.CreateClaimAsync(userId, claim);
+                newClaim = null;
+                await LoadItems();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error adding new Claim for user {UserId}", userId);
+        }
+    }
+
+    private void OnCancelClaim()
+    {
+        newClaim = null;
+        StateHasChanged();
+    }
+
+    private async Task ShowNewClaimDialog()
+    {
+        var parameters = new DialogParameters
+        {
+            { "Claim", new Claim { PrimaryAddress = new(), SecondaryAddress = new() } }
+        };
+
+        var options = new DialogOptions { MaxWidth = MaxWidth.ExtraExtraLarge, FullWidth = true };
+
+        var dialog = await DialogService.ShowAsync<MedClaimX.Web.Components.UI.Management.Claims.NewItem>("New Claim", parameters, options);
+        var result = await dialog.Result;
+
+        if (result != null && !result.Canceled && result.Data is Claim savedClaim)
+        {
+            await ClaimService.CreateClaimAsync(userId, savedClaim);
+            await LoadItems();
+        }
     }
 }

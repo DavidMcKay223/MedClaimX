@@ -17,7 +17,6 @@ namespace MedClaimX.Core.Management
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
 
-
         public required Address PrimaryAddress { get; set; }
         public required Address SecondaryAddress { get; set; }
     }

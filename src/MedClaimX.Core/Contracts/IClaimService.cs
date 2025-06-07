@@ -9,10 +9,10 @@ namespace MedClaimX.Core.Contracts
 {
     public interface IClaimService
     {
-        Task<List<Claim>> GetAllClaimsAsync();
+        Task<List<Claim>> GetAllClaimsAsync(string userId);
         Task<Claim> GetClaimByIdAsync(int claimId);
-        Task<Claim> CreateClaimAsync(Claim claim);
-        Task<Claim> UpdateClaimAsync(Claim claim);
+        Task<Claim> CreateClaimAsync(string userId, Claim claim);
+        Task<Claim> UpdateClaimAsync(string userId, Claim claim);
         Task DeleteClaimAsync(int claimId);
     }
 }

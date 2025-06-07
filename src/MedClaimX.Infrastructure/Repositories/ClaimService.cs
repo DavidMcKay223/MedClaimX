@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MedClaimX.Core.Contracts;
 using MedClaimX.Core.Management;
 using MedClaimX.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedClaimX.Infrastructure.Repositories
 {
@@ -17,29 +18,42 @@ namespace MedClaimX.Infrastructure.Repositories
             _db = db;
         }
 
-        public Task<Claim> CreateClaimAsync(Claim claim)
+        public async Task<Claim> CreateClaimAsync(string userId, Claim claim)
         {
-            throw new NotImplementedException();
+            _db.Claims.Add(claim);
+            await _db.SaveChangesAsync();
+            return claim;
         }
 
-        public Task DeleteClaimAsync(int claimId)
+        public async Task DeleteClaimAsync(int claimId)
         {
-            throw new NotImplementedException();
+            var claim = await _db.Claims.FindAsync(claimId);
+            if (claim != null)
+            {
+                _db.Claims.Remove(claim);
+                await _db.SaveChangesAsync();
+            }
         }
 
-        public Task<List<Claim>> GetAllClaimsAsync()
+        public async Task<List<Claim>> GetAllClaimsAsync(string userId)
         {
-            throw new NotImplementedException();
+            // TODO: Need Organization Tied to Claim and UserId will be Tied to Organizations
+            return await _db.Claims.ToListAsync();
         }
 
-        public Task<Claim> GetClaimByIdAsync(int claimId)
+        public async Task<Claim> GetClaimByIdAsync(int claimId)
         {
-            throw new NotImplementedException();
+            return await _db.Claims.FirstAsync(c => c.Id == claimId);
         }
 
-        public Task<Claim> UpdateClaimAsync(Claim claim)
+        public async Task<Claim> UpdateClaimAsync(string userId, Claim claim)
         {
-            throw new NotImplementedException();
+            var existing = await _db.Claims.FindAsync(claim.Id);
+            if (existing == null) return null!;
+
+            _db.Entry(existing).CurrentValues.SetValues(claim);
+            await _db.SaveChangesAsync();
+            return existing;
         }
     }
 }
