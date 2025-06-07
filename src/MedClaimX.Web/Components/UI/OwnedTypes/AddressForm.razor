@@ -12,16 +12,16 @@ else
     <MudText Typo="Typo.h4">@Label</MudText>
     <MudGrid>
         <MudItem xs="12">
-            <MudTextField @bind-Value="Address.Street" Label="Street" For="@(() => Address.Street)" MaxLength="100" />
+            <MudTextField @bind-Value="Address.Street" Label="Street" Variant="Variant.Outlined" For="@(() => Address.Street)" MaxLength="100" ReadOnly="@ReadOnly" Disabled="@Disabled" />
         </MudItem>
         <MudItem xs="12" md="4">
-            <MudTextField @bind-Value="Address.City" Label="City" For="@(() => Address.City)" MaxLength="50" />
+            <MudTextField @bind-Value="Address.City" Label="City" Variant="Variant.Outlined" For="@(() => Address.City)" MaxLength="50" ReadOnly="@ReadOnly" Disabled="@Disabled" />
         </MudItem>
         <MudItem xs="12" md="4">
-            <MudTextField @bind-Value="Address.State" Label="State" For="@(() => Address.State)" MaxLength="50" />
+            <MudTextField @bind-Value="Address.State" Label="State" Variant="Variant.Outlined" For="@(() => Address.State)" MaxLength="50" ReadOnly="@ReadOnly" Disabled="@Disabled" />
         </MudItem>
         <MudItem xs="12" md="4">
-            <MudTextField @bind-Value="Address.ZipCode" Label="Zip Code" For="@(() => Address.ZipCode)" MaxLength="20" />
+            <MudTextField @bind-Value="Address.ZipCode" Label="Zip Code" Variant="Variant.Outlined" For="@(() => Address.ZipCode)" MaxLength="20" ReadOnly="@ReadOnly" Disabled="@Disabled" />
         </MudItem>
     </MudGrid>
 }
@@ -32,4 +32,10 @@ else
 
     [Parameter]
     public string Label { get; set; } = "Address";
+
+    [Parameter]
+    public bool ReadOnly { get; set; } = false;
+
+    [Parameter]
+    public bool Disabled { get; set; } = false;
 }

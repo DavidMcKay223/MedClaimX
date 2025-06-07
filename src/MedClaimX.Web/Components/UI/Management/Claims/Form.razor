@@ -1,5 +1,52 @@
-﻿<h3>Form</h3>
+﻿@using MedClaimX.Core.Management
+
+<MudDialog>
+    <DialogContent>
+        <MudText Typo="Typo.h4">Edit Claim</MudText>
+        <MudGrid>
+            <MudItem xs="12" md="6">
+                <MudTextField @bind-Value="Claim!.ClaimNumber" Label="Claim Number" Variant="Variant.Outlined" For="@(() => Claim!.ClaimNumber)" MaxLength="50" />
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudTextField @bind-Value="Claim!.FirstName" Label="Patient First Name" Variant="Variant.Outlined" For="@(() => Claim!.FirstName)" MaxLength="50" />
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudTextField @bind-Value="Claim!.LastName" Label="Patient Last Name" Variant="Variant.Outlined" For="@(() => Claim!.LastName)" MaxLength="50" />
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid>
+            <MudItem xs="12" md="6">
+                <MedClaimX.Web.Components.UI.OwnedTypes.AddressForm Label="Primary Address" Address="Claim!.PrimaryAddress" />
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MedClaimX.Web.Components.UI.OwnedTypes.AddressForm Label="Secondary Address" Address="Claim!.SecondaryAddress" />
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid>
+            <MudItem xs="12" md="6">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Save">
+                    <MudIcon Icon="@Icons.Material.Filled.Save" />
+                    Save Claim
+                </MudButton>
+
+                <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="Cancel">
+                    <MudIcon Icon="@Icons.Material.Filled.Close" />
+                    Cancel
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+</MudDialog>
 
 @code {
+    [Parameter]
+    public Claim? Claim { get; set; }
 
+    [CascadingParameter]
+    public IMudDialogInstance MudDialog { get; set; } = default!;
+
+    private void Cancel() => MudDialog.Cancel();
+    private void Save() => MudDialog.Close(DialogResult.Ok(Claim));
 }

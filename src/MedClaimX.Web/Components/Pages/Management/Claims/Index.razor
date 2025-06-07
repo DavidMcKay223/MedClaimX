@@ -42,6 +42,7 @@ else
                     <MudTh>Patient Last Name</MudTh>
                     <MudTh>Primary State</MudTh>
                     <MudTh>Secondary State</MudTh>
+                    <MudTh>Actions</MudTh>
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd DataLabel="Claim Number">@context.ClaimNumber</MudTd>
@@ -49,6 +50,11 @@ else
                     <MudTd DataLabel="Patient Last Name">@context.LastName</MudTd>
                     <MudTd DataLabel="Primary State">@context.PrimaryAddress.State</MudTd>
                     <MudTd DataLabel="Secondary State">@context.SecondaryAddress.State</MudTd>
+                    <MudTd>
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" OnClick="() => EditClaimAsync(context)" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Visibility" Color="Color.Secondary" OnClick="() => ViewClaimAsync(context)" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="() => DeleteClaimAsync(context)" />
+                    </MudTd>
                 </RowTemplate>
             </MudTable>
         </MudCardContent>
@@ -123,15 +129,54 @@ else
             { "Claim", new Claim { PrimaryAddress = new(), SecondaryAddress = new() } }
         };
 
-        var options = new DialogOptions { MaxWidth = MaxWidth.ExtraExtraLarge, FullWidth = true };
+        var options = new DialogOptions { MaxWidth = MaxWidth.ExtraExtraLarge, FullWidth = true, BackdropClick = false, FullScreen = true };
 
-        var dialog = await DialogService.ShowAsync<MedClaimX.Web.Components.UI.Management.Claims.NewItem>("New Claim", parameters, options);
+        var dialog = await DialogService.ShowAsync<MedClaimX.Web.Components.UI.Management.Claims.NewItem>(null, parameters, options);
         var result = await dialog.Result;
 
         if (result != null && !result.Canceled && result.Data is Claim savedClaim)
         {
             await ClaimService.CreateClaimAsync(userId, savedClaim);
             await LoadItems();
+        }
+    }
+
+    private async Task ViewClaimAsync(Claim claim)
+    {
+        var parameters = new DialogParameters { ["Claim"] = claim };
+
+        var options = new DialogOptions { MaxWidth = MaxWidth.ExtraExtraLarge, FullWidth = true, BackdropClick = false, FullScreen = true };
+
+        await DialogService.ShowAsync<MedClaimX.Web.Components.UI.Management.Claims.Card>(null, parameters, options);
+    }
+
+    private async Task EditClaimAsync(Claim claim)
+    {
+        var parameters = new DialogParameters { ["Claim"] = claim };
+
+        var options = new DialogOptions { MaxWidth = MaxWidth.ExtraExtraLarge, FullWidth = true, BackdropClick = false, FullScreen = true };
+
+        var dialog = await DialogService.ShowAsync<MedClaimX.Web.Components.UI.Management.Claims.Form> (null, parameters, options);
+        var result = await dialog.Result;
+
+        if (result != null && !result.Canceled && result.Data is Claim updated)
+        {
+            await ClaimService.UpdateClaimAsync(userId, updated);
+            await LoadItems();
+        }
+    }
+
+    private async Task DeleteClaimAsync(Claim claim)
+    {
+        bool? confirmed = await DialogService.ShowMessageBox(
+            "Delete Confirmation",
+            $"Are you sure you want to delete claim {claim.ClaimNumber}?",
+            yesText: "Yes", cancelText: "Cancel");
+
+        if (confirmed == true)
+        {
+            await ClaimService.DeleteClaimAsync(claim.Id);
+            Claims = await ClaimService.GetAllClaimsAsync("user-id-placeholder");
         }
     }
 }

@@ -1,5 +1,46 @@
-﻿<h3>Card</h3>
+﻿@using MedClaimX.Core.Management
+
+<MudDialog>
+    <DialogContent>
+        <MudText Typo="Typo.h4">View Claim</MudText>
+        <MudGrid>
+            <MudItem xs="12" md="6">
+                <MudTextField Value="Claim!.ClaimNumber" Label="Claim Number" Variant="Variant.Outlined" MaxLength="50" ReadOnly="true" Disabled="true" />
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudTextField Value="Claim!.FirstName" Label="Patient First Name" Variant="Variant.Outlined" MaxLength="50" ReadOnly="true" Disabled="true" />
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudTextField Value="Claim!.LastName" Label="Patient Last Name" Variant="Variant.Outlined" MaxLength="50" ReadOnly="true" Disabled="true" />
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid>
+            <MudItem xs="12" md="6">
+                <MedClaimX.Web.Components.UI.OwnedTypes.AddressForm Label="Primary Address" Address="Claim!.PrimaryAddress" ReadOnly="true" Disabled="true" />
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MedClaimX.Web.Components.UI.OwnedTypes.AddressForm Label="Secondary Address" Address="Claim!.SecondaryAddress" ReadOnly="true" Disabled="true" />
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid>
+            <MudItem xs="12" md="6">
+                <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="Cancel">
+                    <MudIcon Icon="@Icons.Material.Filled.Close" />
+                    Cancel
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+</MudDialog>
 
 @code {
+    [Parameter]
+    public Claim? Claim { get; set; }
 
+    [CascadingParameter]
+    public IMudDialogInstance MudDialog { get; set; } = default!;
+
+    private void Cancel() => MudDialog.Cancel();
 }

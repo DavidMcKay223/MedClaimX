@@ -1,20 +1,17 @@
 ﻿@using MedClaimX.Core.Management
 
-<MudDialog Style="min-height: 600px;">
-    <TitleContent>
-        New Claim
-    </TitleContent>
+<MudDialog>
     <DialogContent>
         <MudText Typo="Typo.h4">New Claim</MudText>
         <MudGrid>
             <MudItem xs="12" md="6">
-                <MudTextField @bind-Value="Claim!.ClaimNumber" Label="Claim Number" For="@(() => Claim!.ClaimNumber)" MaxLength="50" />
+                <MudTextField @bind-Value="Claim!.ClaimNumber" Label="Claim Number" Variant="Variant.Outlined" For="@(() => Claim!.ClaimNumber)" MaxLength="50" />
             </MudItem>
             <MudItem xs="12" md="6">
-                <MudTextField @bind-Value="Claim!.FirstName" Label="Patient First Name" For="@(() => Claim!.FirstName)" MaxLength="50" />
+                <MudTextField @bind-Value="Claim!.FirstName" Label="Patient First Name" Variant="Variant.Outlined" For="@(() => Claim!.FirstName)" MaxLength="50" />
             </MudItem>
             <MudItem xs="12" md="6">
-                <MudTextField @bind-Value="Claim!.LastName" Label="Patient Last Name" For="@(() => Claim!.LastName)" MaxLength="50" />
+                <MudTextField @bind-Value="Claim!.LastName" Label="Patient Last Name" Variant="Variant.Outlined" For="@(() => Claim!.LastName)" MaxLength="50" />
             </MudItem>
         </MudGrid>
 
